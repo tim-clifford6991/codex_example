@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inbox CoPilot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Inbox CoPilot</h1>
+        <p class="subtitle">
+          AI-powered email command center to keep you organized, responsive, and
+          focused.
+        </p>
+      </div>
+      <div class="header-actions">
+        <button id="sync-now" class="primary">Sync Now</button>
+        <button id="new-insight" class="secondary">Generate Insight</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel connection" aria-labelledby="connection-heading">
+        <div class="panel-header">
+          <h2 id="connection-heading">Gmail Connection</h2>
+          <span id="connection-status" class="status status-offline">Offline</span>
+        </div>
+        <p>
+          Connect one or multiple Gmail accounts to begin processing your inbox
+          with Inbox CoPilot.
+        </p>
+        <form id="connection-form" class="connection-form">
+          <label for="account-email">Account email</label>
+          <div class="connection-controls">
+            <input
+              type="email"
+              id="account-email"
+              name="account-email"
+              placeholder="name@gmail.com"
+              required
+            />
+            <button type="submit" class="primary" id="connect-btn">
+              Connect
+            </button>
+          </div>
+        </form>
+        <ul id="connected-accounts" class="account-list" aria-live="polite"></ul>
+        <div class="panel-footer">
+          <h3>Status Details</h3>
+          <dl class="status-grid">
+            <div>
+              <dt>Last sync</dt>
+              <dd id="last-sync">—</dd>
+            </div>
+            <div>
+              <dt>Emails indexed</dt>
+              <dd id="emails-indexed">0</dd>
+            </div>
+            <div>
+              <dt>Insights generated</dt>
+              <dd id="insights-generated">0</dd>
+            </div>
+            <div>
+              <dt>AI actions scheduled</dt>
+              <dd id="actions-scheduled">0</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="panel analytics" aria-labelledby="analytics-heading">
+        <div class="panel-header">
+          <h2 id="analytics-heading">Processing Overview</h2>
+          <span class="status status-online">Real-time</span>
+        </div>
+        <div class="metrics">
+          <article class="metric-card">
+            <header>Emails processed</header>
+            <p><span id="metric-processed" class="metric-value">0</span></p>
+            <small id="metric-processed-trend">+0 today</small>
+          </article>
+          <article class="metric-card">
+            <header>Response drafts</header>
+            <p><span id="metric-drafts" class="metric-value">0</span></p>
+            <small id="metric-drafts-trend">Ready to review</small>
+          </article>
+          <article class="metric-card">
+            <header>Focus time recovered</header>
+            <p><span id="metric-focus" class="metric-value">0h</span></p>
+            <small id="metric-focus-trend">vs. last week</small>
+          </article>
+        </div>
+        <div class="insight-stream" aria-live="polite">
+          <h3>Latest AI Insights</h3>
+          <ul id="insight-list"></ul>
+        </div>
+      </section>
+
+      <section class="panel chat" aria-labelledby="chat-heading">
+        <div class="panel-header">
+          <h2 id="chat-heading">AI Command Console</h2>
+          <span class="status status-online">Assistant ready</span>
+        </div>
+        <div id="conversation" class="conversation" aria-live="polite"></div>
+        <form id="chat-form" class="chat-form" autocomplete="off">
+          <label class="sr-only" for="chat-input">Ask Inbox CoPilot</label>
+          <textarea
+            id="chat-input"
+            name="chat-input"
+            rows="2"
+            placeholder="Ask to summarize today\'s emails, schedule follow-ups, or draft replies..."
+            required
+          ></textarea>
+          <div class="chat-actions">
+            <button type="button" id="insert-context" class="secondary">
+              Insert Latest Insight
+            </button>
+            <button type="submit" class="primary">Send</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel workspace" aria-labelledby="workspace-heading">
+        <div class="panel-header">
+          <h2 id="workspace-heading">Workspace</h2>
+          <nav class="workspace-tabs" aria-label="Workspace views">
+            <button class="tab active" data-tab="preview">Email Preview</button>
+            <button class="tab" data-tab="reply">Smart Reply</button>
+            <button class="tab" data-tab="calendar">Calendar & Tasks</button>
+          </nav>
+        </div>
+        <div id="workspace-content" class="workspace-content"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Inbox CoPilot keeps your data secure with granular Gmail scopes and on-device encryption.</p>
+    </footer>
+
+    <template id="email-template">
+      <article class="email-card">
+        <header>
+          <h3 id="email-subject"></h3>
+          <p>
+            <span id="email-sender"></span>
+            <span aria-hidden="true"> • </span>
+            <time id="email-time"></time>
+          </p>
+        </header>
+        <section id="email-body"></section>
+        <footer class="email-footer">
+          <button class="secondary" data-action="snippet">Insert summary</button>
+          <button class="secondary" data-action="todo">Add follow-up task</button>
+          <button class="primary" data-action="reply">Open reply composer</button>
+        </footer>
+      </article>
+    </template>
+
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
